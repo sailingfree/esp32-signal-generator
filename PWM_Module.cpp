@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include "PWM_Module.h"
 
 void PWM_Module::Stop(ledc_channel_t channel_num, bool highspeed) {
@@ -9,11 +10,15 @@ void PWM_Module::Setup(ledc_timer_t timer_num, ledc_channel_t channel_num, bool 
     ledc_mode_t speed_mode = highspeed ? LEDC_HIGH_SPEED_MODE : LEDC_LOW_SPEED_MODE;
 
     ledc_timer_config_t timer_config; 
+    //memset(&timer_config, 0, sizeof(timer_config));
+
     timer_config.speed_mode = speed_mode;       // timer mode
     timer_config.duty_resolution = resolution;  // resolution of PWM duty, e.g. LEDC_TIMER_10_BIT
     timer_config.timer_num = timer_num;         // timer index
     timer_config.freq_hz = frequency;           // frequency of PWM signal
+    timer_config.clk_cfg = LEDC_AUTO_CLK;
 
+    Serial.printf("Mode %d Resolution %d time_num %d frequency %d\n", speed_mode, resolution, timer_num, frequency);
     ledc_channel_config_t channel_config = {
         .gpio_num   = out_pin,
         .speed_mode = speed_mode,
@@ -21,7 +26,7 @@ void PWM_Module::Setup(ledc_timer_t timer_num, ledc_channel_t channel_num, bool 
         .intr_type  = LEDC_INTR_DISABLE,
         .timer_sel  = timer_num,
         .duty       = duty,
-        .hpoint     = phase
+        .hpoint     = phase,
     };
 
     ledc_timer_config(&timer_config);
