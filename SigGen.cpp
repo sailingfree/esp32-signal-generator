@@ -47,8 +47,8 @@ SOFTWARE.
     #include <SPIFFS.h>
 #endif
 
-// #define FORMAT_FILESYSTEM  // Uncomment to format the file system (only necessary once before first data upload)
-// #define SHOW_PASSWORDS  // Uncomment to show passwords in debug serial output
+//#define FORMAT_FILESYSTEM  // Uncomment to format the file system (only necessary once before first data upload)
+#define SHOW_PASSWORDS  // Uncomment to show passwords in debug serial output
 // #define FORCE_AP  // Uncomment to force device into access-point mode at startup (don't try to connect to WiFi)
 
 WiFi_Module* wifi;
@@ -153,7 +153,7 @@ void handleSetup() {
     ledc_timer_bit_t resolution = LEDC_TIMER_10_BIT;
     bool highspeed = true;
     uint32_t duty = 512;
-    uint32_t out_pin = 25;
+    uint32_t out_pin = 13;
 
     // DAC-specific parameters
     dac_channel_t dac_channel = DAC_CHANNEL_1;
@@ -350,10 +350,10 @@ void loadSettings() {
 
 // Reset configuration defaults and store them in EEPROM
 void resetDefaults() {
-    ssid = "";
-    password = "";
+    ssid = "naiadhome3";
+    password = "Dragonfly301";
     local_ip.fromString("");
-    gateway.fromString("192.168.1.1");
+    gateway.fromString("192.168.1.254");
     subnet.fromString("255.255.255.0");
     
     settings->StoreString(SSID_SETTING, ssid);
